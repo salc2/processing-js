@@ -1,0 +1,119 @@
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../core-ajax/core-ajax.html">
+<script src="../Processing.js/processing.min.js"></script>
+
+
+<!--
+ProcessingJS Polymer Element.
+WebComponent functionality to processingjs project.
+
+## Example
+
+    <processing-js>
+      <script type="pde">
+          void setup()
+              {
+                size(200,200);
+                background(125);
+                fill(255);
+                noLoop();
+                PFont fontA = loadFont("courier");
+                textFont(fontA, 14);  
+              }
+
+              void draw(){  
+                text("Hello Web!",20,20);
+                println("Hello ErrorLog!");
+              }
+      </script>
+    </processing-js>
+
+@element processing-js
+@blurb WebComponent to processingjs project.
+@status alpha
+@homepage https://github.com/salc2/processing-js
+-->
+<polymer-element name="processing-js" attributes="codeType pdeUrl">
+
+<template>
+    <core-ajax id="ajax" url="{{pdeUrl}}" on-core-response="{{handleAjax}}" handleAs="text"></core-ajax>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div style="display:none;">
+      <content id="content" select="script"></content>
+    </div>
+  <canvas id="mycanvas"></canvas>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+      function drawMyCanvasPDE(pdeText,canvas) {
+          var sketch = Processing.compile(pdeText).sourceCode;
+          var projs = new Processing(canvas, eval(sketch));  
+      }
+      function drawMyCanvasJS(jsText,canvas){
+       function sketchProc(processing) { eval(jsText) }
+        var projs = new Processing(canvas, sketchProc);  
+      }
+
+    Polymer({
+      /**
+       * The `codeType` attribute referring to language type to processing 
+       * script, `pde` (java) `js` (javascript)
+       * 
+       * @attribute codeType
+       * @type pde, js
+       * @default 'pde'
+       */
+      codeType: "pde",
+      
+      /**
+       * `pdeUrl` provide url to file with pde code.
+       * NOTE: if some url is provided, the element will ignore its content script tag
+       *
+       * @attribute pdeUrl
+       * @type string
+       * @default 'null'
+       */
+      pdeUrl: null,
+
+      ready: function() {
+        // Ready is a lifecycle callback.
+        // You can do setup work in here.
+        // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
+       if(this.pdeUrl){
+                var ajax = this.$.ajax;
+                ajax.go();
+          }else{
+            var type = this.$.content.getDistributedNodes()[0].type;
+            var textCode = this.$.content.getDistributedNodes()[0].innerText;
+            if(type === "pde"){                
+                drawMyCanvasPDE(textCode,this.$.mycanvas);  
+            }else if(type === "js"){
+                drawMyCanvasJS(textCode,this.$.mycanvas); 
+            }else{
+              throw new Error("attribute 'type' must be 'pde' or 'js'");
+            }
+          }
+        },
+        handleAjax: function(e,r){
+           drawMyCanvasPDE(r.response,this.$.mycanvas);
+        }
+     });
+
+    })();
+  </script>
+
+</polymer-element>
