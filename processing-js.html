@@ -41,7 +41,7 @@ WebComponent functionality to processingjs project.
 @status alpha
 @homepage https://github.com/salc2/processing-js
 -->
-<polymer-element name="processing-js" attributes="codeType pdeUrl">
+<polymer-element name="processing-js" attributes="pdeUrl">
 
 <template>
     <core-ajax id="ajax" url="{{pdeUrl}}" on-core-response="{{handleAjax}}" handleAs="text"></core-ajax>
@@ -69,16 +69,6 @@ WebComponent functionality to processingjs project.
       }
 
     Polymer({
-      /**
-       * The `codeType` attribute referring to language type to processing 
-       * script, `pde` (java) `js` (javascript)
-       * 
-       * @attribute codeType
-       * @type pde, js
-       * @default 'pde'
-       */
-      codeType: "pde",
-      
       /**
        * `pdeUrl` provide url to file with pde code.
        * NOTE: if some url is provided, the element will ignore its content script tag
