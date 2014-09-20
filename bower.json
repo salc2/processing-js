@@ -1,14 +1,14 @@
 {
-  "name": "seed-element",
-  "version": "0.0.0",
+  "name": "processing-js",
+  "version": "0.0.1",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "salc2 <javiersalcedo75@gmail.com>"
   ],
-  "description": "Element providing solution to no problem in particular.",
-  "keywords": "seed, polymer, web-components",
-  "main": "seed-element.html",
+  "description": "Processingjs Element Polymer WebComponent.",
+  "keywords": "polymer, processing, web-components, processingjs",
+  "main": "processing-js.html",
   "license": "MIT",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/salc2/processing-js/",
   "ignore": [
     "**/.*",
     "test",
