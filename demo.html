@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>processing-js element Demo</title>
 
-  <script src="../platform/platform.js"></script>
+  <script src="../webcomponentsjs/webcomponents.min.js"></script>
   <link rel="import" href="processing-js.html">
 
 </head>
@@ -21,65 +21,40 @@
 
   <p>An example of using <code>&lt;processing-js></code> with 'pde' script:</p>
 
-  <processing-js>
-<script type="pde">
-
-float max_distance;
-
-
-
-void setup() {
-
-  size(200, 200); 
-
-  smooth();
-
-  noStroke();
-
-  max_distance = dist(0, 0, width, height);
-
-}
-
-
-
-void draw() 
-
-{
-
-  background(51);
-
-
-
-  for(int i = 0; i <= width; i += 20) {
-
-    for(int j = 0; j <= width; j += 20) {
-
-      float size = dist(mouseX, mouseY, i, j);
-
-      size = size/max_distance * 66;
-
-      ellipse(i, j, size, size);
-
+  <processing-js 
+  pdecode = "float max_distance;
+    void setup() {
+      size(200, 200);
+      smooth();
+      noStroke();
+      max_distance = dist(0, 0, width, height);
     }
+    void draw() 
+    {
 
-  }
+      background(51);
+      for(int i = 0; i <= width; i += 20) {
 
-}
-</script>
+        for(int j = 0; j <= width; j += 20) {
+
+          float size = dist(mouseX, mouseY, i, j);
+          size = size/max_distance * 66;
+          ellipse(i, j, size, size);
+        }
+      }
+    }">
 </processing-js>
 
 
 
-  <p>An example of using <code>&lt;processing-js></code> with 'pdeUrl' attribute:</p>
+  <p>An example of using <code>&lt;processing-js></code> with 'pdeurl' attribute:</p>
 
-<processing-js pdeUrl="sketch-demo.pde">
+<processing-js pdeurl="sketch-demo.pde">
 </processing-js>
 
 
   <p>An example of using <code>&lt;processing-js></code> with 'js' code, javascript only:</p>
-<processing-js>
-<script type="js">
-processing.draw = function() {
+<processing-js jscode= "processing.draw = function() {
     var centerX = processing.width / 2, centerY = processing.height / 2;
     var maxArmLength = Math.min(centerX, centerY);
 
@@ -98,9 +73,7 @@ processing.draw = function() {
     drawArm(minutesPosition, 0.80, 3);
     var secondsPosition = now.getSeconds() / 60;
     drawArm(secondsPosition, 0.90, 1);
-  };
-
-</script>
+  };">
 </processing-js>
 
 </body>

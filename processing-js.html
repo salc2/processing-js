@@ -17,9 +17,8 @@ WebComponent functionality to processingjs project.
 
 ## Example
 
-    <processing-js>
-      <script type="pde">
-          void setup()
+    <processing-js 
+    pdecode="void setup()
               {
                 size(200,200);
                 background(125);
@@ -32,8 +31,7 @@ WebComponent functionality to processingjs project.
               void draw(){  
                 text("Hello Web!",20,20);
                 println("Hello ErrorLog!");
-              }
-      </script>
+              }">
     </processing-js>
 
 @element processing-js
@@ -41,18 +39,15 @@ WebComponent functionality to processingjs project.
 @status alpha
 @homepage https://github.com/salc2/processing-js
 -->
-<polymer-element name="processing-js" attributes="pdeUrl">
+<polymer-element name="processing-js" attributes="pdeurl pdecode jscode">
 
 <template>
-    <core-ajax id="ajax" url="{{pdeUrl}}" on-core-response="{{handleAjax}}" handleAs="text"></core-ajax>
+    <core-ajax id="ajax" url="{{pdeurl}}" on-core-response="{{handleAjax}}" handleAs="text"></core-ajax>
     <style>
       :host {
         display: block;
       }
-    </style>
-    <div style="display:none;">
-      <content id="content" select="script"></content>
-    </div>
+    </style>  
   <canvas id="mycanvas"></canvas>
   </template>
 
@@ -70,31 +65,45 @@ WebComponent functionality to processingjs project.
 
     Polymer({
       /**
-       * `pdeUrl` provide url to file with pde code.
-       * NOTE: if some url is provided, the element will ignore its content script tag
+       * `pdeurl` provide url to file with pde code.
+       * NOTE: if some url is provided, the element will ignore others attributes
        *
-       * @attribute pdeUrl
+       * @attribute pdeurl
        * @type string
        * @default 'null'
        */
-      pdeUrl: null,
+      pdeurl: null,
+      /**
+       * `pdecode` pde script, java processing code.
+       *
+       * @attribute pdecode
+       * @type string
+       * @default 'null'
+       */
+      pdecode: null,
+      /**
+       * `jscode` javascript, javascript processing code.
+       *
+       * @attribute jscode
+       * @type string
+       * @default 'null'
+       */
+      jscode: null,
 
       ready: function() {
         // Ready is a lifecycle callback.
         // You can do setup work in here.
         // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
-       if(this.pdeUrl){
+       if(this.pdeurl){
                 var ajax = this.$.ajax;
                 ajax.go();
-          }else{
-            var type = this.$.content.getDistributedNodes()[0].type;
-            var textCode = this.$.content.getDistributedNodes()[0].innerText;
-            if(type === "pde"){                
-                drawMyCanvasPDE(textCode,this.$.mycanvas);  
-            }else if(type === "js"){
-                drawMyCanvasJS(textCode,this.$.mycanvas); 
+          }else{            
+            if(this.pdecode){                
+                drawMyCanvasPDE(this.pdecode,this.$.mycanvas);  
+            }else if(this.jscode){
+                drawMyCanvasJS(this.jscode,this.$.mycanvas); 
             }else{
-              throw new Error("attribute 'type' must be 'pde' or 'js'");
+              throw new Error("attributes error");
             }
           }
         },
