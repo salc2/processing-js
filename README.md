@@ -37,15 +37,13 @@ $ bower install processing-js --save
 With external pde file
 
 ```html
-    <processing-js pdeUrl="sketch.pde"></processing-js>
+    <processing-js pdeurl="sketch.pde"></processing-js>
 ```
 
 With pde (java) code
 
 ```html
-  <processing-js>
-    <script type="pde">
-
+  <processing-js pdecode="
     float max_distance;
     void setup() {
       size(200, 200);
@@ -64,16 +62,14 @@ With pde (java) code
           ellipse(i, j, size, size);
         }
       }
-    }
-    </script>
+    }">
     </processing-js>
 ```
 
   With js (javascript) code
 
 ```html
-    <processing-js>
-      <script type="js">
+    <processing-js jscode="
       processing.draw = function() {
           var centerX = processing.width / 2, centerY = processing.height / 2;
           var maxArmLength = Math.min(centerX, centerY);
@@ -93,9 +89,7 @@ With pde (java) code
           drawArm(minutesPosition, 0.80, 3);
           var secondsPosition = now.getSeconds() / 60;
           drawArm(secondsPosition, 0.90, 1);
-        };
-
-      </script>
+        };">
   </processing-js>
 ```
 
