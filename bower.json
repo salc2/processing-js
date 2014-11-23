@@ -1,0 +1,7 @@
+{
+  "name": "processing-js#gh-pages",
+  "private": true,
+  "dependencies": {
+    "processing-js": "salc2/processing-js#master"
+  }
+}
